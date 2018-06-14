@@ -46,7 +46,7 @@ export function createThunks<State, ActionTypes, ActionCreators>(options: {
                     bindActionCreators(options.creators as any, dispatch),
                 );
 
-                return thunks[key].apply(thunks, args)(
+                return thunks[key].apply(boundThunks, args)(
                     dispatchWithActions,
                     getState,
                 );
