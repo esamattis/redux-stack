@@ -83,9 +83,12 @@ test("thunks work", () => {
         myThunk(boo: number) {
             return async dispatch => {
                 // assert return value here too
-                const res: Promise<null> | void = dispatch(
-                    SimpleActions.creators.setFoo({foo: "from thunk"}),
-                );
+                // const res: Promise<void> | void = dispatch(
+                //     SimpleActions.creators.setFoo({foo: "from thunk"}),
+                // );
+                const res: Promise<void> | void = dispatch.setFoo({
+                    foo: "from thunk",
+                });
             };
         },
     });

@@ -22,11 +22,25 @@ export interface Thunk<State, ActionTypes, ActionCreators> {
     ): any;
 }
 
-export function createThunks<State, ActionTypes, ActionCreators>(options: {
+export function createThunks<
+    State,
+    ActionTypes,
+    ActionCreators extends Object
+>(options: {
     initialState: State;
     types: ActionTypes;
     creators: ActionCreators;
 }) {
+    function proxyGetHandler(dispatch: any, prop: any) {
+        const actionCreator: any = (options.creators as any)[prop];
+
+        if (actionCreator) {
+            return (...args: any[]) => dispatch(actionCreator(...args));
+        }
+
+        throw new Error("not found " + prop.toString());
+    }
+
     return function inner<
         ThunkDict extends {
             [thunk: string]: (
@@ -41,15 +55,11 @@ export function createThunks<State, ActionTypes, ActionCreators>(options: {
                 dispatch: any,
                 getState: any,
             ) => {
-                const dispatchWithActions = Object.assign(
-                    dispatch, // XXX mutation
-                    bindActionCreators(options.creators as any, dispatch),
-                );
+                const proxy = new Proxy(dispatch, {
+                    get: proxyGetHandler,
+                });
 
-                return thunks[key].apply(boundThunks, args)(
-                    dispatchWithActions,
-                    getState,
-                );
+                return thunks[key].apply(boundThunks, args)(proxy, getState);
             };
         });
 
