@@ -97,7 +97,7 @@ test("thunks work", () => {
         reducer: SimpleActions.reducer,
     });
 
-    store.dispatch(Thunks.myThunk(3) as any);
+    store.dispatch(Thunks.myThunk(3));
 
     expect(store.getState()).toEqual({foo: "from thunk"});
 });
