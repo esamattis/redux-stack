@@ -169,6 +169,12 @@ test("thunks work", () => {
         },
     });
 
+    const OtherActions = createSimpleActions(initialState, {
+        setOther(state, action: {}) {
+            return state;
+        },
+    });
+
     const Thunks = createThunks(SimpleActions, {
         myThunk(boo: number) {
             return async dispatch => {
@@ -177,8 +183,21 @@ test("thunks work", () => {
                     SimpleActions.setFoo({foo: "from thunk"}),
                 );
 
+                dispatch(OtherActions.setOther({}));
+
                 // just for type assertions
                 const fakeDispatch: typeof dispatch = (() => null) as any;
+
+                // Can nest dispatches with ok types
+                fakeDispatch((dispatch, getState) => {
+                    const foo: string = getState().foo;
+                    dispatch(OtherActions.setOther({}));
+                    dispatch(SimpleActions.setFoo({foo: ""}));
+
+                    // must fail
+                    // @ts-ignore
+                    dispatch();
+                });
 
                 // These must fail
 

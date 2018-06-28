@@ -4,8 +4,12 @@
 
 import produce from "immer";
 
-export const SIMPLE_ACTIONS_META = Symbol("SIMPLE_ACTIONS_META");
-export const NO_MANUAL = Symbol("NO_MANUAL");
+export const _SIMPLE_ACTIONS_META = Symbol("_SIMPLE_ACTIONS_META");
+
+export const _CREATED_WITH_SIMPLE_ACTIONS = Symbol(
+    "_CREATED_WITH_SIMPLE_ACTIONS",
+);
+
 const DEFAULT_PREFIX = "SIMPLE_ACTION";
 
 type SecondArg<T> = T extends (x: any, y: infer V) => any ? V : never;
@@ -20,7 +24,7 @@ export interface SimpleActionsObject<State> {
 }
 
 export interface SimpleActionsMeta<State, Actions> {
-    [SIMPLE_ACTIONS_META]: {
+    [_SIMPLE_ACTIONS_META]: {
         initialState: State;
         actions: Actions;
         immer: boolean;
@@ -38,7 +42,7 @@ export type ActionCreatorsFromSimpleActions<
         payload: SecondArg<Actions[K]>;
 
         // This makes it impossible to create actions objects manually
-        [NO_MANUAL]: "do not create action objects manually";
+        [_CREATED_WITH_SIMPLE_ACTIONS]: true;
     }
 };
 
@@ -75,7 +79,7 @@ export const createSimpleActions = <
     options?: CreateSimpleActionsOptions,
 ) => {
     const meta: SimpleActionsMeta<State, Actions> = {
-        [SIMPLE_ACTIONS_META]: {
+        [_SIMPLE_ACTIONS_META]: {
             initialState,
             actions,
             prefix: options
@@ -85,7 +89,7 @@ export const createSimpleActions = <
         },
     };
 
-    const creators = createActionCreators(meta[SIMPLE_ACTIONS_META].prefix)(
+    const creators = createActionCreators(meta[_SIMPLE_ACTIONS_META].prefix)(
         actions,
     );
 
@@ -117,7 +121,7 @@ export function createReducer<
     State,
     Actions extends SimpleActionsObject<State>
 >(actions: SimpleActionsMeta<State, Actions>, options?: CreateReducerOptions) {
-    const meta = actions[SIMPLE_ACTIONS_META];
+    const meta = actions[_SIMPLE_ACTIONS_META];
 
     return function reducer(
         state = meta.initialState,
