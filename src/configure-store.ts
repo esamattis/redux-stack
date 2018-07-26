@@ -1,6 +1,6 @@
 // Forked from https://github.com/markerikson/redux-starter-kit/blob/2f7f1e0dce166f25ae7ec70a6460587ddd0cef80/src/configureStore.js
 // TODO typing suck here a bit
-import {createStore, compose, applyMiddleware, DeepPartial, Store} from "redux";
+import {applyMiddleware, compose, createStore, DeepPartial, Store} from "redux";
 import thunk from "redux-thunk";
 
 const {composeWithDevTools} = require("redux-devtools-extension");
@@ -65,7 +65,7 @@ export function configureStore<State>(options: {
     return store as {
         // Custom store type to allow thunks in dispatch
         dispatch: (action: {type: string} | ((...args: any[]) => any)) => any;
-        getState: () => State;
+        getState: () => NonNullable<State>;
         subscribe: Store["subscribe"];
         replaceReducer: Store["replaceReducer"];
     };

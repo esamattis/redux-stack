@@ -20,11 +20,6 @@ test("can create reducers", () => {
 
     // just some type tests
     reducer(initialState, SimpleActions.setFoo({foo: "typetest"}));
-    // this must fail
-    // @ts-ignore
-    reducer(initialState, {type: "setFoofail", payload: {foo: "test"}});
-    // @ts-ignore
-    reducer(initialState, {type: "setFoo", payload: {foo: "test"}});
 
     const store = configureStore({
         reducer,
@@ -184,31 +179,6 @@ test("thunks work", () => {
                 );
 
                 dispatch(OtherActions.setOther({}));
-
-                // just for type assertions
-                const fakeDispatch: typeof dispatch = (() => null) as any;
-
-                // Can nest dispatches with ok types
-                fakeDispatch((dispatch, getState) => {
-                    const foo: string = getState().foo;
-                    dispatch(OtherActions.setOther({}));
-                    dispatch(SimpleActions.setFoo({foo: ""}));
-
-                    // must fail
-                    // @ts-ignore
-                    dispatch();
-                });
-
-                // These must fail
-
-                // @ts-ignore
-                fakeDispatch({type: "setFoo", payload: {foo: "from thunk"}});
-
-                // @ts-ignore
-                fakeDispatch({});
-
-                // @ts-ignore
-                fakeDispatch();
             };
         },
     });
