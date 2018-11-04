@@ -1,12 +1,12 @@
 import React from "react";
 import {Provider} from "react-redux";
+import {
+    ImmerReducer,
+    createActionCreators,
+    createReducerFunction,
+} from "immer-reducer";
 
 import {configureStore} from "../src/configure-store";
-import {ImmerReducer} from "../src/immer-reducer";
-import {
-    createReducerFunction,
-    createActionCreators,
-} from "../src/immer-reducer";
 
 test("can assing store to provider (types)", () => {
     const store = configureStore({
