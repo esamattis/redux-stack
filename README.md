@@ -2,8 +2,8 @@
 
 This is now split in two other libraries
 
--   (immer-reducer)[https://github.com/epeli/immer-reducer]
--   (redux-render-prop)[https://github.com/epeli/redux-render-prop]
+-   [immer-reducer](https://github.com/epeli/immer-reducer)
+-   [redux-render-prop](https://github.com/epeli/redux-render-prop)
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/epeli/redux-stack.svg)](https://greenkeeper.io/)
 
