@@ -1,5 +1,10 @@
 # Epeli's Redux Stack for TypeScript
 
+This is now split in two other libraries
+
+    - (immer-reducer)[https://github.com/epeli/immer-reducer]
+    - (redux-render-prop)[https://github.com/epeli/redux-render-prop]
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/epeli/redux-stack.svg)](https://greenkeeper.io/)
 
 Fairly opinionated Redux Stack for TypeScript. This is made two design goals in mind:
@@ -37,24 +42,6 @@ options:
 -   `devTools?: boolean`: Enables or disables redux-devtools. By default is enabled
 -   `preloadedState?: State`: Preload store with a state
 -   `enhancers?: Enhancers[]`: Redux enhancers
-
-### `createSimpleActions(actions: Object, options?: Object): SimpleActions`
-
-Create action types, action creators and reducers in one go. Immutable updates are made type safe and terse with [Immer][].
-
-[immer]: https://github.com/mweststrate/immer
-
-This is originally forked from [wkrueger/redutser][redutser]. Huge props for creating it!
-
-[redutser]: https://github.com/wkrueger/redutser
-
-options:
-
--   `actionTypePrefix: string`: Custom prefix for the generated actions types
-
-### `createReducer(actions: SimpleActions)`
-
-Create reducer from simple actions for the redux store
 
 ### `makeThunkCreator(mapStore: Function)`
 
