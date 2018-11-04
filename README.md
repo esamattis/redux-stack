@@ -10,7 +10,7 @@ This is now split in two other libraries
 Fairly opinionated Redux Stack for TypeScript. This is made two design goals in mind:
 
 1.  Be type safe
-2.  Be terse (Redux doesn't have to be verbose!)
+2.  Be terse! Redux doesn't have to be verbose!
 
 I really don't recommend you to use this as is because this is fairly living library but if you like something here feel free to fork this or copy paste some parts to your project.
 
@@ -50,11 +50,12 @@ Create thunks from simple actions for side effects (api calls etc.).
 ## Usage example
 
 ```tsx
+import {makeThunkCreator, configureStore} from "@epeli/redux-stack";
 import {
-    createSimpleActions,
-    createReducer,
-    makeThunkCreator,
-} from "@epeli/redux-stack";
+    ImmerReducer,
+    createActionCreators,
+    createReducerFunction,
+} from "immer-reducer";
 
 /**
  * Define state as a single interface
@@ -67,29 +68,18 @@ const initialState = {
     count: 0,
 };
 
-/**
- * Simple actions are simple. No side effects. Just state
- * updates using Immer. Everything else should be made
- * using thunks.
- */
-const SimpleActions = createSimpleActions(initialState, {
-    /**
-     * draftState is an Immer proxy so the updates can be made in
-     * mutable style but the actual result will be properly immutable
-     */
-    setCount(draftState, action: {newCount: number}) {
-        draftState.count = action.newCount;
-        return draftState;
-    },
+// Using immer-reducer https://github.com/epeli/immer-reducer
+class MyReducers extends ImmerReducer<typeof initialState> {
+    setCount(newCount: number) {
+        this.draftState.count = newCount;
+    }
 
-    /**
-     * Actions without any params still need an empty action object
-     */
-    increment(draftState, action: {}) {
-        draftState.count += 1;
-        return draftState;
-    },
-});
+    increment() {
+        this.draftState.count += 1;
+    }
+}
+
+const MyActionCreators = createActionCreators(MyReducers);
 
 /**
  * Make typed thunk creator.
@@ -115,7 +105,7 @@ const Thunks = {
      *  (base: number) => (reduxDispatch: Dispatch, getState: GetState) => void
      */
     setRandomCount: createThunk((base: number) => ({dispatch}) => {
-        dispatch(SimpleActions.setCount({newCount: base + Math.random()}));
+        dispatch(MyActionCreators.setCount({newCount: base + Math.random()}));
     }),
 
     /**
@@ -127,7 +117,7 @@ const Thunks = {
         const response = await request(API_URL);
 
         dispatch(
-            SimpleActions.setCount({
+            MyActionCreators.setCount({
                 newCount: response.body.count,
             }),
         );
@@ -148,7 +138,7 @@ const Thunks = {
 
         // and after that double it
         dispatch(
-            SimpleActions.setCount({
+            MyActionCreators.setCount({
                 newCount: getState().count * 2,
             }),
         );
@@ -158,25 +148,22 @@ const Thunks = {
 const store = configureStore({
     // reducers option takes an array of reducers which all receive the same state object.
     reducers: [
-        // Create reducer from the simple actions
-        createReducer(SimpleActions),
+        // Create reducer function from the MyReducers class
+        createReducerFunction(MyReducers),
 
         // If you need to keep your old reducers still around
         oldReducer,
     ],
 });
-// For other options use your editor intellisense or checkout the code.
 ```
 
-## Usage with redux-render-prop
-
-[`redux-render-prop`][rrp] is another library by me but it's bit more stable so it lives in it's own package.
+Combine with [`redux-render-prop`][rrp]
 
 ```tsx
 import {makeComponentCreator} from "redux-render-prop";
 import {bindActionCreators} from "redux";
 
-const AllActions = {...SimpleActions, ...Thunks};
+const AllActions = {...MyActionCreators, ...Thunks};
 
 export const createMyAppComponent = makeComponentCreator({
     prepareState: (state: State) => state,
