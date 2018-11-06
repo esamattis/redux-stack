@@ -45,12 +45,14 @@ options:
 
 ### `makeThunkCreator(mapStore: Function)`
 
-Create thunks from simple actions for side effects (api calls etc.).
+Create type-safe thunks for side effects (api calls etc.).
 
 ## Usage example
 
 ```tsx
 import {makeThunkCreator, configureStore} from "@epeli/redux-stack";
+
+// https://github.com/epeli/immer-reducer
 import {
     ImmerReducer,
     createActionCreators,
@@ -68,7 +70,7 @@ const initialState = {
     count: 0,
 };
 
-// Using immer-reducer https://github.com/epeli/immer-reducer
+
 class MyReducers extends ImmerReducer<typeof initialState> {
     setCount(newCount: number) {
         this.draftState.count = newCount;
