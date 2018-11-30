@@ -7,10 +7,10 @@ const composeWithDevTools =
     typeof window !== "undefined" &&
     anyWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
         ? anyWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-        : function() {
-              if (arguments.length === 0) return undefined;
-              if (typeof arguments[0] === "object") return compose;
-              return compose.apply(null, arguments);
+        : function(...args: any[]) {
+              if (args.length === 0) return undefined;
+              if (typeof args[0] === "object") return compose;
+              return compose.apply(null, args);
           };
 
 /**
