@@ -2,10 +2,10 @@
 // TODO typing suck here a bit
 import {createStore, compose, applyMiddleware, Store} from "redux";
 
-const anyWindow = window as any;
+const anyWindow: any = typeof window !== "undefined" ? window : undefined;
+
 const composeWithDevTools =
-    typeof window !== "undefined" &&
-    anyWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    anyWindow && anyWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
         ? anyWindow.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
         : function(...args: any[]) {
               if (args.length === 0) return undefined;
