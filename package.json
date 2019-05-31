@@ -20,22 +20,22 @@
         "lib"
     ],
     "devDependencies": {
-        "@types/jest": "^24.0.9",
-        "@types/react": "^16.8.6",
-        "@types/react-dom": "^16.8.2",
-        "@types/react-redux": "^7.0.1",
-        "dtslint": "^0.5.3",
-        "immer-reducer": "^0.6.0",
-        "jest": "^24.1.0",
-        "prettier": "^1.16.4",
-        "react": "^16.8.4",
-        "react-dom": "^16.8.4",
-        "react-redux": "^6.0.1",
-        "react-testing-library": "^6.0.0",
-        "ts-jest": "^24.0.0",
-        "typescript": "~3.3.3333"
+        "@types/jest": "^24.0.13",
+        "@types/react": "^16.8.19",
+        "@types/react-dom": "^16.8.4",
+        "@types/react-redux": "^7.0.9",
+        "dtslint": "^0.7.7",
+        "immer-reducer": "^0.7.0",
+        "jest": "^24.8.0",
+        "prettier": "^1.17.1",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-redux": "^7.0.3",
+        "react-testing-library": "^8.0.1",
+        "ts-jest": "^24.0.2",
+        "typescript": "~3.5.1"
     },
     "peerDependencies": {
-        "redux": "^4.0.0"
+        "redux": "^4.0.1"
     }
 }
