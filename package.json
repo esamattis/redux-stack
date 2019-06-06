@@ -27,7 +27,7 @@
         "dtslint": "^0.7.7",
         "immer-reducer": "^0.7.0",
         "jest": "^24.8.0",
-        "prettier": "^1.17.1",
+        "prettier": "^1.18.0",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-redux": "^7.0.3",
