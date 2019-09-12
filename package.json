@@ -32,7 +32,7 @@
         "react-dom": "^16.8.6",
         "react-redux": "^7.0.3",
         "react-testing-library": "^8.0.1",
-        "ts-jest": "^24.0.2",
+        "ts-jest": "^24.1.0",
         "typescript": "~3.5.1"
     },
     "peerDependencies": {
